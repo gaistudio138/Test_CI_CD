@@ -1,0 +1,28 @@
+# 1. 劇本的名稱（顯示在 GitHub 網頁上的標題）
+name: Node.js CI
+
+# 2. 觸發時機 (Events)：什麼時候要執行？
+on:
+  push:
+    branches: [ "main" ]  # 當程式碼推送到 main 分支時啟動
+
+# 3. 任務清單 (Jobs)：要做哪些大項目？
+jobs:
+  build-and-test:         # 任務 ID，可以自定義
+    runs-on: ubuntu-latest # 4. 執行環境：要在哪種作業系統跑？ (通常選 Linux)
+
+    # 5. 具體步驟 (Steps)：在環境裡要做的細節動作
+    steps:
+    - name: 複製程式碼    # 步驟名稱 (自訂)
+      uses: actions/checkout@v4 # 使用 GitHub 官方寫好的「小工具」來抓你的 Code
+
+    - name: 設定 Node.js 
+      uses: actions/setup-node@v4 # 幫這台空電腦安裝 Node 環境
+      with:
+        node-version: '20'
+
+    - name: 安裝相依套件
+      run: npm install    # 實際在終端機打的指令
+
+    - name: 執行自動化測試
+      run: npm test       # 執行 package.json 裡的測試指令
